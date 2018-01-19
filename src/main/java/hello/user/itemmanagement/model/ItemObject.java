@@ -1,19 +1,18 @@
 package hello.user.itemmanagement.model;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "item")
 public class ItemObject {
 	
+	@Id
 	@NotNull
-	@Size(min=1, message = "Enter valid userid")
-	private String id;
+	//@Size(min=1, message = "Enter valid itemid")
+	private Long id;
 	
 	@NotNull
 	private String itemName;
@@ -32,11 +31,11 @@ public class ItemObject {
 		this.price = price;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

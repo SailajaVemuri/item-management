@@ -26,13 +26,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = ItemController.class, secure =false)
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class ItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private ItemService userService;
+    private ItemService itemService;
     
        
     ItemObject mockItem = new ItemObject();
@@ -42,14 +42,14 @@ public class UserControllerTest {
     String resultJson = "{\"resMsg\":\"User created successfully\",\"userId\":\"1234\",\"valErrors\":null}";
 
     @Test
-    public void shouldCreateUser() throws Exception {
-    	mockItem.setId("4444");
+    public void shouldCreateItem() throws Exception {
+    	mockItem.setId(4444L);
     	mockItem.setItemName("John");
     	mockItem.setPrice(25.36f);
     	mockItem.setQuantity(5);
 
     	
-    	Mockito.when(userService.createItem(Mockito.any(ItemObject.class))).thenReturn(mockItem);
+    	Mockito.when(itemService.createItem(Mockito.any(ItemObject.class))).thenReturn(mockItem);
     			
     	RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/createUser")
@@ -70,12 +70,12 @@ public class UserControllerTest {
     
     //Test for user creation failure on using same userid
     @Test
-    public void shouldFailCreateUser() throws Exception {
+    public void shouldFailCreateItem() throws Exception {
     	
-    	BusinessException bre = new BusinessException(ERR_CODES.USER_EXISTS, "", "");
+    	BusinessException bre = new BusinessException(ERR_CODES.ITEM_EXISTS, "", "");
 
     	
-    	Mockito.when(userService.createItem(Mockito.any(ItemObject.class))).thenThrow(bre);
+    	Mockito.when(itemService.createItem(Mockito.any(ItemObject.class))).thenThrow(bre);
     			
     	RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/createUser")
@@ -93,13 +93,13 @@ public class UserControllerTest {
     }
     
     @Test
-    public void shoutFetchUser() throws Exception{
-    	mockItem.setId("4444");
+    public void shoutFetchItem() throws Exception{
+    	mockItem.setId(4444L);
     	mockItem.setItemName("John");
     	mockItem.setPrice(36.25f);
     	mockItem.setQuantity(5);
 
-    	Mockito.when(userService.fetchItem(Mockito.anyString())).thenReturn(mockItem);
+    	Mockito.when(itemService.fetchItem(Mockito.anyLong())).thenReturn(mockItem);
     	
     	RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/4444").accept(MediaType.APPLICATION_JSON);
     	    	
@@ -116,14 +116,14 @@ public class UserControllerTest {
     }
     
     @Test
-    public void shouldUpdateUser() throws Exception {
-    	mockItem.setId("4444");
+    public void shouldUpdateItem() throws Exception {
+    	mockItem.setId(4444L);
     	mockItem.setItemName("John");
     	mockItem.setPrice(5.23f);
     	mockItem.setQuantity(5);
 
     	
-    	Mockito.when(userService.updateItem(Mockito.any(ItemObject.class))).thenReturn(mockItem);
+    	Mockito.when(itemService.updateItem(Mockito.any(ItemObject.class))).thenReturn(mockItem);
     			
     	RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/updateUser")
@@ -142,14 +142,14 @@ public class UserControllerTest {
     }
     
     @Test
-    public void shouldDeleteUser() throws Exception {
-    	mockItem.setId("4444");
+    public void shouldDeleteItem() throws Exception {
+    	mockItem.setId(4444L);
     	mockItem.setItemName("John");
     	mockItem.setPrice(45.36f);
     	mockItem.setQuantity(5);
 
     	
-    	Mockito.when(userService.deleteItem(Mockito.anyString())).thenReturn(Boolean.TRUE);
+    	Mockito.when(itemService.deleteItem(Mockito.anyLong())).thenReturn(Boolean.TRUE);
     			
     	RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.delete("/deleteUser/4444");

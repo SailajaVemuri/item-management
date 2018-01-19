@@ -7,9 +7,11 @@ import hello.user.itemmanagement.model.ItemObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("list")
 public class ItemServiceImpl implements ItemService {
 	
 	public List<ItemObject> itemList = new ArrayList<ItemObject>();
@@ -18,7 +20,7 @@ public class ItemServiceImpl implements ItemService {
 	public ItemObject createItem(ItemObject user) throws Exception{
 		for(ItemObject existingUser : itemList){
 			if(existingUser.getId().equals(user.getId())){
-				throw new BusinessException(ERR_CODES.USER_EXISTS, "Id", "User already exists");	
+				throw new BusinessException(ERR_CODES.ITEM_EXISTS, "Id", "Item already exists");	
 			}
 		}
 		itemList.add(user);
@@ -40,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public Boolean deleteItem(String itemId) throws Exception{
+	public Boolean deleteItem(Long itemId) throws Exception{
 		for(ItemObject existingItem : itemList){
 			if(existingItem.getId().equals(itemId)){
 				itemList.remove(existingItem);
@@ -51,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ItemObject fetchItem(String userId) throws Exception {
+	public ItemObject fetchItem(Long userId) throws Exception {
 		for(ItemObject existingUser : itemList){
 			if(existingUser.getId().equals(userId)){
 				return existingUser;
